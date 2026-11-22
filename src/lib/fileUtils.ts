@@ -1,0 +1,5 @@
+import type { FileRecord } from "./types";
+export function formatBytes(n:number){if(!n)return "0 B";const u=["B","KB","MB","GB","TB"],i=Math.min(Math.floor(Math.log(n)/Math.log(1024)),4);return `${(n/1024**i).toFixed(i?1:0)} ${u[i]}`;}
+export function category(f:Pick<FileRecord,"name"|"type">){const e=f.name.split(".").pop()?.toLowerCase()||"";if(f.type.startsWith("image/")||["svg","avif"].includes(e))return "images";if(f.type.startsWith("video/"))return "videos";if(f.type.startsWith("audio/"))return "audio";if(["zip","rar","7z","tar","gz"].includes(e))return "archives";if(["pdf","doc","docx","txt","md","rtf","csv","xls","xlsx","ppt","pptx"].includes(e)||f.type.startsWith("text/"))return "documents";return "other";}
+export function iconFor(f:Pick<FileRecord,"name"|"type">){return ({images:"▧",videos:"▶",audio:"♫",archives:"▣",documents:"▤"} as Record<string,string>)[category(f)]||"◇";}
+export function downloadBlob(blob:Blob,name:string){const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1200);}
