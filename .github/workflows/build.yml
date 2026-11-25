@@ -9,7 +9,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci --include=dev
+      - run: npm ci --include=dev --production=false
       - name: Verify TypeScript installation
         run: npm ls typescript --depth=0 && test -x node_modules/.bin/tsc && node_modules/.bin/tsc --version
       - run: npm run check
